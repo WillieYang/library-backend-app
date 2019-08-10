@@ -1,6 +1,6 @@
-module.exports = (app) => {
-  const books = require('../controllers/book.controller.js');
+const books = require('../controllers/book.controller.js');
 
+module.exports = (app) => {
   // Create a new book
   app.post('/books', books.create);
 
@@ -15,4 +15,4 @@ module.exports = (app) => {
 
   // Delete a book with bookId
   app.delete('/books/:bookId', books.delete);
-}
+};

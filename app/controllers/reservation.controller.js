@@ -5,7 +5,7 @@ exports.create = (req, res) => {
   // console.log('req', req.body);
   if (!req.body.description) {
     return res.status(400).send({
-      message: "Reservation description can not be empty"
+      message: 'Reservation description can not be empty',
     });
   }
 
@@ -13,7 +13,7 @@ exports.create = (req, res) => {
   const reservation = new Reservation({
     bookId: req.body.bookId,
     bookName: req.body.bookName,
-    username: req.body.username || "Doctor Who",
+    username: req.body.username || 'Doctor Who',
     description: req.body.description,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
@@ -22,23 +22,24 @@ exports.create = (req, res) => {
 
   // Save reservation to database
   reservation.save()
-    .then(data => {
+    .then((data) => {
       res.send(data);
-    }).catch(err => {
+    }).catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Reservation."
+        message: err.message || 'Some error occurred while creating the Reservation.',
       });
     });
+  return true;
 };
 
 // Retrieve and return all reservations from the database.
 exports.findAll = (req, res) => {
   Reservation.find()
-    .then(reservations => {
+    .then((reservations) => {
       res.send(reservations);
-    }).catch(err => {
+    }).catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving reservations."
+        message: err.message || 'Some error occurred while retrieving reservations.',
       });
     });
 };
@@ -46,21 +47,22 @@ exports.findAll = (req, res) => {
 // Find a single reservation with a reservationId
 exports.findOne = (req, res) => {
   Reservation.findById(req.params.reservationId)
-    .then(reservation => {
+    .then((reservation) => {
       if (!reservation) {
         return res.status(404).send({
-          message: "Reservation not found with id " + req.params.reservationId
+          message: `Reservation not found with id ${req.params.reservationId}`,
         });
       }
       res.send(reservation);
-    }).catch(err => {
+      return true;
+    }).catch((err) => {
       if (err.kind === 'ObjectId') {
         return res.status(404).send({
-          message: "Reservation not found with id " + req.params.reservationId
+          message: `Reservation not found with id ${req.params.reservationId}`,
         });
       }
       return res.status(500).send({
-        message: "Error retrieving reservation with id " + req.params.reservationId
+        message: `Error retrieving reservation with id ${req.params.reservationId}`,
       });
     });
 };
@@ -69,55 +71,58 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   if (!req.body.description) {
     return res.status(400).send({
-      message: "Reservation description can not be empty"
+      message: 'Reservation description can not be empty',
     });
   }
 
   Reservation.findByIdAndUpdate(req.params.reservationId, {
     bookId: req.body.bookId,
     bookName: req.body.bookName,
-    username: req.body.username || "Doctor Who",
+    username: req.body.username || 'Doctor Who',
     description: req.body.description,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
   }, { new: true })
-    .then(reservation => {
+    .then((reservation) => {
       if (!reservation) {
         return res.status(404).send({
-          message: "Reservation not found with id " + req.params.reservationId
+          message: `Reservation not found with id ${req.params.reservationId}`,
         });
       }
       res.send(reservation);
-    }).catch(err => {
+      return true;
+    }).catch((err) => {
       if (err.kind === 'ObjectId') {
         return res.status(404).send({
-          message: "Reservation not found with id " + req.params.reservationId
+          message: `Reservation not found with id ${req.params.reservationId}`,
         });
       }
       return res.status(500).send({
-        message: "Error updating reservation with id " + req.params.reservationId
+        message: `Error updating reservation with id ${req.params.reservationId}`,
       });
     });
+  return true;
 };
 
 // Delete a reservation with the specified reservationId in the request
 exports.delete = (req, res) => {
   Reservation.findByIdAndRemove(req.params.reservationId)
-    .then(reservation => {
+    .then((reservation) => {
       if (!reservation) {
         return res.status(404).send({
-          message: "Reservation not found with id " + req.params.reservationId
+          message: `Reservation not found with id ${req.params.reservationId}`,
         });
       }
-      res.send({ message: "Reservation deleted successfully!" });
-    }).catch(err => {
+      res.send({ message: 'Reservation deleted successfully!' });
+      return true;
+    }).catch((err) => {
       if (err.kind === 'ObjectId' || err.name === 'NotFound') {
         return res.status(404).send({
-          message: "Reservation not found with id " + req.params.reservationId
+          message: `Reservation not found with id ${req.params.reservationId}`,
         });
       }
       return res.status(500).send({
-        message: "Could not delete reservation with id " + req.params.reservationId
+        message: `Could not delete reservation with id ${req.params.reservationId}`,
       });
     });
 };

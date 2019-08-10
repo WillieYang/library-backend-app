@@ -5,7 +5,7 @@ const BookSchema = mongoose.Schema({
   description: String,
   storage: Number,
 }, {
-  timestamps: true
+  timestamps: true,
 });
 
 module.exports = mongoose.model('Book', BookSchema);

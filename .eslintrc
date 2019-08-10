@@ -1,0 +1,28 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "_": true
+  },
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb"
+  ],
+  "rules": {
+    "no-debugger": "error",
+    "no-unused-vars": 0,
+    "no-useless-constructor": 0,
+    "no-console": 0,
+    "no-shadow": 0,
+    "import/no-extraneous-dependencies": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  }
+}

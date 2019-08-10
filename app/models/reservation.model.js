@@ -8,7 +8,7 @@ const ReservationSchema = mongoose.Schema({
   startDate: String,
   endDate: String,
 }, {
-  timestamps: true
+  timestamps: true,
 });
 
 module.exports = mongoose.model('Reservation', ReservationSchema);
