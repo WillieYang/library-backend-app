@@ -30,6 +30,7 @@ exports.create = (req, res) => {
 
 // Retrieve and return all books from the database.
 exports.findAll = (req, res) => {
+  // console.log('access test')
   Book.find()
     .then(books => {
       res.send(books);
