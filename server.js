@@ -20,6 +20,7 @@ mongoose.Promise = global.Promise;
 
 // Connecting to the database
 
+mongoose.set('useCreateIndex', true);
 mongoose.connect(dbConfig.url, {
   useNewUrlParser: true,
 }).then(() => {
@@ -37,6 +38,7 @@ app.get('/', (req, res) => {
 
 require('./app/routes/book.routes.js')(app);
 require('./app/routes/reservation.routes.js')(app);
+require('./app/routes/user.routes.js')(app);
 
 app.listen(3000, () => {
   console.log('Server is listening on port 3000');
