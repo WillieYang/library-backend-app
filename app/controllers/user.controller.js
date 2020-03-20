@@ -52,21 +52,26 @@ const login = (req, res) => {
   });
 };
 
+const getAll = (req, res) => {
+  const result = {};
+  let status = 200;
+  User.find({}, (err, users) => {
+    if (!err) {
+      result.status = status;
+      result.result = users;
+      res.status(status).send(result);
+    } else {
+      status = 404;
+      result.status = status;
+      result.result = '404 Not found';
+      res.status(status).send(result);
+    }
+  });
+};
+
 exports.addUser = addUser;
 exports.login = login;
-
-// // Retrieve and return all users from the database.
-// exports.findAll = (req, res) => {
-//   // console.log('access test')
-//   User.find()
-//     .then((users) => {
-//       res.send(users);
-//     }).catch((err) => {
-//       res.status(500).send({
-//         message: err.message || 'Some error occurred while retrieving users.',
-//       });
-//     });
-// };
+exports.getAll = getAll;
 
 // // Find a single user with a userId
 // exports.findOne = (req, res) => {
