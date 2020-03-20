@@ -55,18 +55,26 @@ const login = (req, res) => {
 const getAll = (req, res) => {
   const result = {};
   let status = 200;
-  User.find({}, (err, users) => {
-    if (!err) {
-      result.status = status;
-      result.result = users;
-      res.status(status).send(result);
-    } else {
-      status = 404;
-      result.status = status;
-      result.result = '404 Not found';
-      res.status(status).send(result);
-    }
-  });
+  const payload = req.decoded;
+  if (payload && payload.user === 'admin') {
+    User.find({}, (err, users) => {
+      if (!err) {
+        result.status = status;
+        result.result = users;
+        res.status(status).send(result);
+      } else {
+        status = 404;
+        result.status = status;
+        result.result = '404 Not found';
+        res.status(status).send(result);
+      }
+    });
+  } else {
+    status = 401;
+    result.status = status;
+    result.error = 'Authentication Error';
+    res.status(status).send(result);
+  }
 };
 
 exports.addUser = addUser;
