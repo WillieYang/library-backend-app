@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const environment = process.env.NODE_ENV;
 const stage = require('../../config/env.config')[process.env.NODE_ENV];
 
 const UserSchema = mongoose.Schema({

@@ -1,32 +1,6 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
-
-// // Create and Save a new user
-// exports.create = (req, res) => {
-//   if (!req.body.description) {
-//     return res.status(400).send({
-//       message: 'User description can not be empty',
-//     });
-//   }
-
-//   // Create a User
-//   const user = new User({
-//     name: req.body.name || 'Untitled User',
-//     description: req.body.description,
-//     storage: req.body.storage,
-//   });
-
-
-//   // Save user to database
-//   user.save()
-//     .then((data) => {
-//       res.send(data);
-//     }).catch((err) => {
-//       res.status(500).send({
-//         message: err.message || 'Some error occurred while creating the User.',
-//       });
-//     });
-//   return true;
-// };
 
 const addUser = (req, res) => {
   const result = {};
@@ -46,7 +20,40 @@ const addUser = (req, res) => {
   });
 };
 
+const login = (req, res) => {
+  const result = {};
+  let status = 200;
+  const { name, password } = req.body;
+  User.findOne({ name }, (err, user) => {
+    if (!err && user) {
+      bcrypt.compare(password, user.password).then((match) => {
+        if (match) {
+          const payload = { user: user.name };
+          const options = { expiresIn: '1d', issuer: 'https://willieyang.github.io/' };
+          const secret = process.env.JWT_SECRET;
+          const token = jwt.sign(payload, secret, options);
+
+          result.status = status;
+          result.token = token;
+          result.result = user;
+        } else {
+          status = 401;
+          result.status = status;
+          result.error = 'Authentication Error';
+        }
+        res.status(status).send(result);
+      });
+    } else {
+      status = 404;
+      result.status = status;
+      result.error = err;
+      res.status(status).send(result);
+    }
+  });
+};
+
 exports.addUser = addUser;
+exports.login = login;
 
 // // Retrieve and return all users from the database.
 // exports.findAll = (req, res) => {
