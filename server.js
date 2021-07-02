@@ -42,5 +42,5 @@ require('./app/routes/reservation.routes.js')(app);
 require('./app/routes/user.routes.js')(app);
 
 app.listen(3000, () => {
-  console.log('Server is listening on port 3000');
+  console.log(`Server is listening on: ${process.env.NODE_ENV} port 3000`);
 });
