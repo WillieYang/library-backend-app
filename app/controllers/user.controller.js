@@ -5,8 +5,8 @@ const User = require('../models/user.model');
 const addUser = (req, res) => {
   const result = {};
   let status = 201;
-  const { name, password } = req.body;
-  const user = new User({ name, password });
+  const { username, password } = req.body;
+  const user = new User({ username, password });
   user.save((err, user) => {
     if (!err) {
       result.status = status;
@@ -23,12 +23,12 @@ const addUser = (req, res) => {
 const login = (req, res) => {
   const result = {};
   let status = 200;
-  const { name, password } = req.body;
-  User.findOne({ name }, (err, user) => {
+  const { username, password } = req.body;
+  User.findOne({ username }, (err, user) => {
     if (!err && user) {
       bcrypt.compare(password, user.password).then((match) => {
         if (match) {
-          const payload = { user: user.name };
+          const payload = { user: user.username };
           const options = { expiresIn: '1d', issuer: 'https://willieyang.github.io/' };
           const secret = process.env.JWT_SECRET;
           const token = jwt.sign(payload, secret, options);
@@ -114,7 +114,7 @@ exports.getAll = getAll;
 //   }
 
 //   User.findByIdAndUpdate(req.params.userId, {
-//     name: req.body.name || 'Untitled User',
+//     username: req.body.username || 'Untitled User',
 //     description: req.body.description,
 //     storage: req.body.storage,
 //   }, { new: true })
@@ -151,7 +151,7 @@ exports.getAll = getAll;
 //       res.send({ message: 'User deleted successfully!' });
 //       return true;
 //     }).catch((err) => {
-//       if (err.kind === 'ObjectId' || err.name === 'NotFound') {
+//       if (err.kind === 'ObjectId' || err.username === 'NotFound') {
 //         return res.status(404).send({
 //           message: `User not found with id ${req.params.userId}`,
 //         });

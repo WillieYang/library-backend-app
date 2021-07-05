@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const stage = require('../../config/env.config')[process.env.NODE_ENV];
 
 const UserSchema = mongoose.Schema({
-  name: {
+  username: {
     type: 'String',
     required: true,
     trim: true,
@@ -26,7 +26,7 @@ UserSchema.pre('save', function save(next) {
   } else {
     bcrypt.hash(user.password, stage.saltingRounds, (err, hash) => {
       if (err) {
-        console.log('Error hasing password for user', user.name);
+        console.log('Error hashing password for user', user.username);
         next();
       } else {
         user.password = hash;
