@@ -46,7 +46,7 @@ const login = (req, res) => {
     } else {
       status = 404;
       result.status = status;
-      result.error = err;
+      result.error = 'The user was not found, please register';
       res.status(status).send(result);
     }
   });
