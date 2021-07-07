@@ -35,7 +35,7 @@ const login = (req, res) => {
 
           result.status = status;
           result.token = token;
-          result.result = user;
+          result.result = { username: user.username, id: user.id, createdDate: user.createdAt };
         } else {
           status = 401;
           result.status = status;
