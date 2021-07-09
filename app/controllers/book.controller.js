@@ -29,74 +29,13 @@ const createBook = (req, res) => {
   });
 };
 
-const getBookList = (req, res) => {
-  const result = {};
-  let status = 200;
-  Book.find({}, (err, books) => {
-    if (!err) {
-      result.status = status;
-      result.result = books;
-      res.status(status).send(result);
-    } else {
-      status = 500;
-      result.status = status;
-      result.error = err.message;
-      res.status(status).send(result);
-    }
-  });
-};
+const getBookList = (req, res) => { helpers.getCustomItemList(req, res, Book); };
 
-const getBookById = (req, res) => {
-  const result = {};
-  let status = 200;
-  const { bookId } = req.params;
-  Book.findById(bookId, (err, book) => {
-    if (!err) {
-      result.status = status;
-      result.result = book;
-    } else {
-      status = 404;
-      result.status = status;
-      result.error = err;
-    }
-    res.status(status).send(result);
-  });
-};
+const getBookById = (req, res) => { helpers.getCustomItemById(req, res, Book); };
 
-const updateBookById = (req, res) => {
-  const result = {};
-  let status = 200;
-  const { bookId } = req.params;
-  Book.findByIdAndUpdate(bookId, req.body, (err, book) => {
-    if (!err) {
-      result.status = status;
-      result.result = book;
-    } else {
-      status = 404;
-      result.status = status;
-      result.error = err;
-    }
-    res.status(status).send(result);
-  });
-};
+const updateBookById = (req, res) => { helpers.updateCustomItemById(req, res, Book); };
 
-const deleteBookById = (req, res) => {
-  const result = {};
-  let status = 200;
-  const { bookId } = req.params;
-  Book.findByIdAndRemove(bookId, (err, book) => {
-    if (!err) {
-      result.status = status;
-      result.message = 'This book has been deleted successfully';
-      result.result = book;
-    } else {
-      status = 404;
-      result.status = status;
-      result.error = err;
-    }
-    res.status(status).send(result);
-  });
-};
+const deleteBookById = (req, res) => { helpers.deleteCustomItemById(req, res, Book); };
 
 exports.createBook = createBook;
 exports.getBookList = getBookList;

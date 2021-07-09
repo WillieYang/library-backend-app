@@ -53,11 +53,11 @@ const login = (req, res) => {
   });
 };
 
-const getAll = (req, res) => {
+const getUserList = (req, res) => {
   const result = {};
   let status = 200;
   const payload = req.decoded;
-  if (payload && payload.user === 'admin') {
+  if (payload && (payload.user === 'admin' || payload.user === 'sheng.yang')) {
     User.find({}, (err, users) => {
       if (!err) {
         result.status = status;
@@ -80,4 +80,4 @@ const getAll = (req, res) => {
 
 exports.addUser = addUser;
 exports.login = login;
-exports.getAll = getAll;
+exports.getUserList = getUserList;

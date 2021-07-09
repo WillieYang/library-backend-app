@@ -4,5 +4,5 @@ const helpers = require('../../utils/helpers');
 module.exports = (app) => {
   app.post('/users', helpers.validateToken, users.addUser);
   app.post('/login', users.login);
-  app.get('/users', helpers.validateToken, users.getAll);
+  app.get('/users', helpers.validateToken, users.getUserList);
 };
