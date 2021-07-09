@@ -22,6 +22,7 @@ mongoose.Promise = global.Promise;
 // Connecting to the database
 
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 mongoose.connect(dbConfig.url, {
   useNewUrlParser: true,
 }).then(() => {

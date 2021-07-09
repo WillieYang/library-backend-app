@@ -39,7 +39,7 @@ const login = (req, res) => {
         } else {
           status = 401;
           result.status = status;
-          result.error = 'Authentication Error';
+          result.error = 'Authentication Error, please check your password';
         }
         res.status(status).send(result);
       });
