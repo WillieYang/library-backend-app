@@ -72,7 +72,7 @@ const getAll = (req, res) => {
   } else {
     status = 401;
     result.status = status;
-    result.error = 'Authentication Error';
+    result.error = 'Authentication Error, administrator required';
     res.status(status).send(result);
   }
 };
