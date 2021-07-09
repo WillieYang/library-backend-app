@@ -1,5 +1,15 @@
 const jwt = require('jsonwebtoken');
 
+const formatDateTime = (date) => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const second = date.getSeconds();
+  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+};
+
 const validateToken = (req, res, next) => {
   const authenticationHeader = req.headers.authentication;
   let result;
@@ -12,6 +22,7 @@ const validateToken = (req, res, next) => {
     try {
       result = jwt.verify(token, process.env.JWT_SECRET, options);
       req.decoded = result;
+      console.log(`Time: ${formatDateTime(new Date())} - User: ${req.decoded.user} - Route: ${req.originalUrl}`);
       next();
     } catch (err) {
       throw new Error(err);
@@ -25,4 +36,5 @@ const validateToken = (req, res, next) => {
   }
 };
 
+exports.formatDateTime = formatDateTime;
 exports.validateToken = validateToken;

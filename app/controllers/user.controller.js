@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
+const helpers = require('../../utils/helpers');
 
 const addUser = (req, res) => {
   const result = {};
@@ -24,6 +25,7 @@ const login = (req, res) => {
   const result = {};
   let status = 200;
   const { username, password } = req.body;
+  console.log(`Time: ${helpers.formatDateTime(new Date())} - User: ${username} - Route: ${req.originalUrl}`);
   User.findOne({ username }, (err, user) => {
     if (!err && user) {
       bcrypt.compare(password, user.password).then((match) => {
@@ -32,7 +34,6 @@ const login = (req, res) => {
           const options = { expiresIn: '1d', issuer: 'https://willieyang.github.io/' };
           const secret = process.env.JWT_SECRET;
           const token = jwt.sign(payload, secret, options);
-
           result.status = status;
           result.token = token;
           result.result = { username: user.username, id: user.id, createdDate: user.createdAt };
