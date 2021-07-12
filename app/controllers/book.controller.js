@@ -1,33 +1,7 @@
 const Book = require('../models/book.model');
 const helpers = require('../../utils/helpers');
 
-const createBook = (req, res) => {
-  const result = {};
-  let status = 201;
-  const { name, description, storage } = req.body;
-  if (!description) {
-    status = 400;
-    result.status = status;
-    result.error = 'Book description can not be empty';
-    res.status(status).send(result);
-  }
-  const book = new Book({
-    name: name || 'Untitled Book',
-    description,
-    storage,
-  });
-  book.save((err, book) => {
-    if (!err) {
-      result.status = status;
-      result.result = book;
-    } else {
-      status = 500;
-      result.status = status;
-      result.error = err;
-    }
-    res.status(status).send(result);
-  });
-};
+const createBook = (req, res) => { helpers.createCustomItem(req, res, Book); };
 
 const getBookList = (req, res) => { helpers.getCustomItemList(req, res, Book); };
 
