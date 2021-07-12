@@ -3,29 +3,13 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 const helpers = require('../../utils/helpers');
 
-const addUser = (req, res) => {
-  const result = {};
-  let status = 201;
-  const { username, password } = req.body;
-  const user = new User({ username, password });
-  user.save((err, user) => {
-    if (!err) {
-      result.status = status;
-      result.result = user;
-    } else {
-      status = 500;
-      result.status = status;
-      result.error = err;
-    }
-    res.status(status).send(result);
-  });
-};
+const addUser = (req, res) => { helpers.createCustomItem(req, res, User); };
 
 const login = (req, res) => {
   const result = {};
   let status = 200;
   const { username, password } = req.body;
-  console.log(`Time: ${helpers.formatDateTime(new Date())} - User: ${username} - Route: ${req.originalUrl}`);
+  console.log(`Time: ${helpers.formatDateTime(new Date())} - User: ${username} - Route: ${req.method} ${req.originalUrl}`);
   User.findOne({ username }, (err, user) => {
     if (!err && user) {
       bcrypt.compare(password, user.password).then((match) => {

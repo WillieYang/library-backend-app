@@ -22,7 +22,7 @@ const validateToken = (req, res, next) => {
     try {
       result = jwt.verify(token, process.env.JWT_SECRET, options);
       req.decoded = result;
-      console.log(`Time: ${formatDateTime(new Date())} - User: ${req.decoded.user} - Route: ${req.originalUrl}`);
+      console.log(`Time: ${formatDateTime(new Date())} - User: ${req.decoded.user} - Route: ${req.method} ${req.originalUrl}`);
       next();
     } catch (err) {
       throw new Error(err);

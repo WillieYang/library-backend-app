@@ -1,18 +1,14 @@
 const reservations = require('../controllers/reservation.controller.js');
+const helpers = require('../../utils/helpers');
 
 module.exports = (app) => {
-  // Create a new reservation
-  app.post('/reservations', reservations.create);
+  app.post('/reservations', helpers.validateToken, reservations.createReservation);
 
-  // Retrieve all reservations
-  app.get('/reservations', reservations.findAll);
+  app.get('/reservations', helpers.validateToken, reservations.getReservationList);
 
-  // Retrieve a single reservation with reservationId
-  app.get('/reservations/:reservationId', reservations.findOne);
+  app.get('/reservations/:reservationId', helpers.validateToken, reservations.getReservationById);
 
-  // Update a reservation with reservationId
-  app.put('/reservations/:reservationId', reservations.update);
+  app.put('/reservations/:reservationId', helpers.validateToken, reservations.updateReservationById);
 
-  // Delete a reservation with reservationId
-  app.delete('/reservations/:reservationId', reservations.delete);
+  app.delete('/reservations/:reservationId', helpers.validateToken, reservations.deleteReservationById);
 };
